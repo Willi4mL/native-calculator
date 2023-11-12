@@ -1,11 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Undo from './components/Undo.js';
+import Calculate from './components/Calculate';
+import Buttons from './components/Buttons';
 
 export default function App() {
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <View style={styles.topSection}>
+        <Undo />
+        <Calculate />
+      </View>
+     <Buttons />
     </View>
   );
 }
@@ -13,8 +19,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#394654',
+    paddingTop: 80,
+  },
+  topSection: {
+    flexWrap: 'wrap',
+    textAlign: 'right',
+    paddingRight: 20
   },
 });
