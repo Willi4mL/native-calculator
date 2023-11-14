@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
-import Undo from './components/Undo.js';
+import Erase from './components/Erase.js';
+import History from './components/History.js';
 import Calculate from './components/Calculate';
 import Buttons from './components/Buttons';
 import { useState } from 'react';
@@ -13,11 +14,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <History />
+      <Erase />
       <View style={styles.topSection}>
-        <Undo />
-        <Calculate receiveNumber={number}/>
+        <Calculate receiveNumber={number} />
       </View>
-     <Buttons passNumber={handlePassNumber}/>
+      <Buttons passNumber={handlePassNumber} />
     </View>
   );
 }
@@ -29,8 +31,9 @@ const styles = StyleSheet.create({
     paddingTop: 80,
   },
   topSection: {
-    flexWrap: 'wrap',
-    textAlign: 'right',
-    paddingRight: 20
+    flex: 1,
+    marginTop: 130,
+    paddingRight: 20,
+    maxHeight: 135,
   },
 });
