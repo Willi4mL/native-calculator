@@ -2,16 +2,22 @@ import { StyleSheet, View } from 'react-native';
 import Undo from './components/Undo.js';
 import Calculate from './components/Calculate';
 import Buttons from './components/Buttons';
+import { useState } from 'react';
 
 export default function App() {
+  const [number, setNumber] = useState()
+
+  const handlePassNumber = (newNumber) => {
+    setNumber(newNumber)
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
         <Undo />
-        <Calculate />
+        <Calculate receiveNumber={number}/>
       </View>
-     <Buttons />
+     <Buttons passNumber={handlePassNumber}/>
     </View>
   );
 }
