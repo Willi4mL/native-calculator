@@ -6,6 +6,6 @@ export const calculationResultState = atom ({
 })
 
 export const calculationState = atom ({
-	key: 'calculationtState',
+	key: 'calculationState',
 	default: ''
 })

@@ -18,63 +18,55 @@ function Buttons() {
 	function handleAddCharacter(selected) {
 		// Clear field
 		if (selected === '') {
-			calculateNumber = selected
 			setResultState(calculateNumber)
 			setCalculation(calculateNumber)
 		}
 		else if (selected === '=') {
 			try {
 				// Set calculation history
-				setCalculation(calculateNumber)
+				setCalculation(resultState)
 
 				// Convert from string to number and calcluate the result
-				let result = new Function('return ' + calculateNumber)()
+				let result = new Function('return ' + resultState)()
 				// Change the result back to a string
 				setResultState(result.toString())
-				calculateNumber = result
 			}
 			catch (error) {
 				setResultState('Error')
-				calculateNumber = ''
 				console.log('Error message: ', error);
 			}
 		}
 		else if (selected === '%') {
-			const percent = calculateNumber / 100
-			calculateNumber = percent
+			const percent = resultState / 100
 			setResultState(percent)
 		}
 		// Add plus or minus
 		else if (selected === '+/-') {
 			calculateNumber = calculateNumber.toString()
-			if (!calculateNumber.includes('-')) {
-				const addCharacter = ['-', ...calculateNumber]
+			if (!resultState.includes('-')) {
+				const addCharacter = ['-', ...resultState]
 				let composit = ''
 				addCharacter.forEach(item => {
 					composit += item
 				})
-				calculateNumber = composit
-				setResultState(calculateNumber)
+				setResultState(composit)
 			}
-			else if (calculateNumber.includes('-')) {
-				const negativeArray = calculateNumber.split('')
+			else if (resultState.includes('-')) {
+				const negativeArray = resultState.split('')
 				const removeMinus = negativeArray.slice(1)
 				let composit = ''
 				removeMinus.forEach(item => {
 					composit += item
 				})
-				calculateNumber = composit
-				setResultState(calculateNumber)
+				setResultState(composit)
 			}
 			else {
 				setResultState('Error')
-				calculateNumber = ''
 			}
 		}
 		else {
-			// Add selected button character to calclutateNumber signal state
-			calculateNumber += selected
-			setResultState(calculateNumber)
+			// Add selected button character to result state
+			setResultState((prevResultState) => prevResultState + selected)
 		}
 	}
 
@@ -83,103 +75,103 @@ function Buttons() {
 		<View style={styles.bottomSection}>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('')}
-				style={styles.buttonContainer}>
-				<Text style={[styles.c, styles.buttonSymbol]}>C</Text>
+				style={[styles.buttonContainer, styles.clearButton]}>
+				<Text style={styles.c}>C</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('+/-')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.plusMinus, styles.buttonSymbol]}>+/-</Text>
+				<Text style={styles.buttonSymbol}>+/-</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('%')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.percent, styles.buttonSymbol]}>%</Text>
+				<Text style={styles.buttonSymbol}>%</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('/')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.divide, styles.buttonSymbol]}>/</Text>
+				<Text style={styles.buttonSymbol}>/</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('7')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.seven, styles.button]}>7</Text>
+				<Text style={styles.button}>7</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('8')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.eight, styles.button]}>8</Text>
+				<Text style={styles.button}>8</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('9')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.nine, styles.button]}>9</Text>
+				<Text style={styles.button}>9</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('*')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.multiplie, styles.buttonSymbol]}>x</Text>
+				<Text style={styles.buttonSymbol}>x</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('4')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.four, styles.button]}>4</Text>
+				<Text style={styles.button}>4</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('5')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.five, styles.button]}>5</Text>
+				<Text style={styles.button}>5</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('6')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.six, styles.button]}>6</Text>
+				<Text style={styles.button}>6</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('-')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.subtraction, styles.buttonSymbol]}>-</Text>
+				<Text style={styles.buttonSymbol}>-</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('1')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.one, styles.button]}>1</Text>
+				<Text style={styles.button}>1</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('2')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.two, styles.button]}>2</Text>
+				<Text style={styles.button}>2</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('3')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.three, styles.button]}>3</Text>
+				<Text style={styles.button}>3</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('+')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.plus, styles.buttonSymbol]}>+</Text>
+				<Text style={styles.buttonSymbol}>+</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('0')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.zero, styles.button]}>0</Text>
+				<Text style={styles.button}>0</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('00')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.doubleZero, styles.button]}>00</Text>
+				<Text style={styles.button}>00</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('.')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.dot, styles.buttonSymbol]}>.</Text>
+				<Text style={styles.buttonSymbol}>.</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				onPress={() => handleAddCharacter('=')}
 				style={styles.buttonContainer}>
-				<Text style={[styles.sum, styles.buttonSymbol]}>=</Text>
+				<Text style={styles.buttonSymbol}>=</Text>
 			</TouchableOpacity>
 		</View>
 	)
@@ -216,6 +208,15 @@ const styles = StyleSheet.create({
 	},
 	buttonSymbol: {
 		color: '#6acc65',
+		fontSize: 30,
+		fontWeight: 'bold',
+		fontFamily: 'Damascus',
+	},
+	clearButton: {
+		backgroundColor: '#6acc65',
+	},
+	c: {
+		color: '#E6FFE6',
 		fontSize: 30,
 		fontWeight: 'bold',
 		fontFamily: 'Damascus',

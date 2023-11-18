@@ -1,9 +1,26 @@
 import { StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { useRecoilState } from 'recoil';
+import { calculationResultState } from '../states';
 
 function Erase() {
+	const [resultState, setResultState] = useRecoilState(calculationResultState)
+
+	function handleErase() {
+		const separateNumber = resultState.split('')
+		separateNumber.pop()
+		let composit = ''
+		separateNumber.forEach(item => {
+			composit += item
+		})
+		setResultState(composit)	
+		console.log(composit);
+		console.log('result: ', resultState);
+	}
 
 	return (
-		<TouchableOpacity style={styles.eraseButton}>
+		<TouchableOpacity 
+		onPress={handleErase}
+		style={styles.eraseButton}>
 			<Text style={styles.eraseText}>(Erase)</Text>
 			<Image source={require('../assets/erase.png')} style={styles.eraseImg}></Image>
 		</TouchableOpacity>
