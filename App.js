@@ -4,6 +4,7 @@ import History from './components/History.js';
 import Calculate from './components/Calculate';
 import Buttons from './components/Buttons';
 import { useState } from 'react';
+import { RecoilRoot } from 'recoil';
 
 export default function App() {
   const [number, setNumber] = useState()
@@ -13,14 +14,16 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <History />
-      <Erase />
-      <View style={styles.topSection}>
-        <Calculate receiveNumber={number} />
+    <RecoilRoot>
+      <View style={styles.container}>
+        <History />
+        <Erase />
+        <View style={styles.topSection}>
+          <Calculate receiveNumber={number} />
+        </View>
+        <Buttons passNumber={handlePassNumber} />
       </View>
-      <Buttons passNumber={handlePassNumber} />
-    </View>
+    </RecoilRoot>
   );
 }
 

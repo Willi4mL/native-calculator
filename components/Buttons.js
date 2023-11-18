@@ -1,6 +1,7 @@
 import { signal } from '@preact/signals-react';
-
 import { StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
+import { useRecoilState } from 'recoil';
+import { calculationResultState, calculationState } from '../states';
 
 const { width } = Dimensions.get('window')
 const windowWidth = width
@@ -10,32 +11,38 @@ const totalGapSize = (itemPerRow - 1) * gap
 const childWidth = (windowWidth - totalGapSize) / itemPerRow
 
 let calculateNumber = signal('')
-function Buttons({ passNumber }) {
-
+function Buttons() {
+	const [resultState, setResultState] = useRecoilState(calculationResultState)
+	const[calculation, setCalculation] = useRecoilState(calculationState)
 
 	function handleAddCharacter(selected) {
 		// Clear field
 		if (selected === '') {
 			calculateNumber = selected
-			passNumber(calculateNumber)
+			setResultState(calculateNumber)
+			setCalculation(calculateNumber)
 		}
 		else if (selected === '=') {
 			try {
+				// Set calculation history
+				setCalculation(calculateNumber)
+
 				// Convert from string to number and calcluate the result
 				let result = new Function('return ' + calculateNumber)()
 				// Change the result back to a string
-				passNumber(result.toString())
+				setResultState(result.toString())
 				calculateNumber = result
 			}
 			catch (error) {
-				passNumber('Error')
+				setResultState('Error')
 				calculateNumber = ''
+				console.log('Error message: ', error);
 			}
 		}
 		else if (selected === '%') {
 			const percent = calculateNumber / 100
 			calculateNumber = percent
-			passNumber(percent)
+			setResultState(percent)
 		}
 		// Add plus or minus
 		else if (selected === '+/-') {
@@ -47,7 +54,7 @@ function Buttons({ passNumber }) {
 					composit += item
 				})
 				calculateNumber = composit
-				passNumber(calculateNumber)
+				setResultState(calculateNumber)
 			}
 			else if (calculateNumber.includes('-')) {
 				const negativeArray = calculateNumber.split('')
@@ -57,17 +64,17 @@ function Buttons({ passNumber }) {
 					composit += item
 				})
 				calculateNumber = composit
-				passNumber(calculateNumber)
+				setResultState(calculateNumber)
 			}
 			else {
-				passNumber('Error')
+				setResultState('Error')
 				calculateNumber = ''
 			}
 		}
 		else {
 			// Add selected button character to calclutateNumber signal state
 			calculateNumber += selected
-			passNumber(calculateNumber)
+			setResultState(calculateNumber)
 		}
 	}
 

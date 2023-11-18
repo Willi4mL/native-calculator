@@ -1,12 +1,16 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
+import { useRecoilState } from 'recoil';
+import { calculationResultState, calculationState } from '../states';
 
-function Calculate({ receiveNumber }) {
+function Calculate() {
+	const [resultState, setResultState] = useRecoilState(calculationResultState)
+	const[calculation, setCalculation] = useRecoilState(calculationState)
 
 	return (
 		<>
-			<Text style={styles.calculateNumber}>3243+4334</Text>
+			<Text style={styles.calculateNumber}>{calculation}</Text>
 			<ScrollView style={styles.scrollResult}>
-				<Text style={styles.result}>{receiveNumber}</Text>
+				<Text style={styles.result}>{resultState}</Text>
 			</ScrollView>
 		</>
 	)
