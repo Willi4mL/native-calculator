@@ -10,8 +10,8 @@ const itemPerRow = 5
 const totalGapSize = (itemPerRow - 1) * gap
 const childWidth = (windowWidth - totalGapSize) / itemPerRow
 
-let calculateNumber = signal('')
 function Buttons() {
+	let calculateNumber = signal('')
 	const [resultState, setResultState] = useRecoilState(calculationResultState)
 	const[calculation, setCalculation] = useRecoilState(calculationState)
 
