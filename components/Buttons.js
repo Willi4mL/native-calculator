@@ -13,7 +13,7 @@ const childWidth = (windowWidth - totalGapSize) / itemPerRow
 function Buttons() {
 	let calculateNumber = signal('')
 	const [resultState, setResultState] = useRecoilState(calculationResultState)
-	const[calculation, setCalculation] = useRecoilState(calculationState)
+	const [calculation, setCalculation] = useRecoilState(calculationState)
 
 	function handleAddCharacter(selected) {
 		// Clear field
@@ -23,48 +23,48 @@ function Buttons() {
 		}
 		else if (selected === '=') {
 			try {
-				// Set calculation history
-				setCalculation(resultState)
+				if (resultState !== 'Error') {
+					// Set calculation history
+					setCalculation(resultState)
 
-				// Convert from string to number and calcluate the result
-				let result = new Function('return ' + resultState)()
-				// Change the result back to a string
-				setResultState(result.toString())
+					// Convert from string to number and calcluate the result
+					let result = new Function('return ' + resultState)()
+					// Change the result back to a string
+					const roundOff = Math.round(result * 1000) / 1000
+					setResultState(roundOff.toString())
+				}
 			}
-			catch (error) {
+			catch {
 				setResultState('Error')
-				console.log('Error message: ', error);
 			}
 		}
 		else if (selected === '%') {
-			const percent = resultState / 100
-			setResultState(percent)
+			const firstCharacter = resultState.slice(0, 1)
+			if (/[+\-*\/]/.test(resultState.slice(1)) && !(firstCharacter === '-' && !/[+\-*\/]/.test(resultState.slice(1)))) {
+				setResultState('Error')
+			}
+			else if (resultState !== 'Error') {
+				const percent = resultState / 100
+				setResultState(percent)
+			}
 		}
 		// Add plus or minus
-		else if (selected === '+/-') {
-			calculateNumber = calculateNumber.toString()
-			if (!resultState.includes('-')) {
-				const addCharacter = ['-', ...resultState]
-				let composit = ''
-				addCharacter.forEach(item => {
-					composit += item
-				})
+		else if (selected === '+/-' && resultState !== 'Error') {
+			const resultString = resultState.toString()
+			if (!resultString.includes('-')) {
+				const addCharacter = ['-', ...resultString]
+				let composit = addCharacter.join('')
 				setResultState(composit)
 			}
 			else if (resultState.includes('-')) {
-				const negativeArray = resultState.split('')
-				const removeMinus = negativeArray.slice(1)
-				let composit = ''
-				removeMinus.forEach(item => {
-					composit += item
-				})
-				setResultState(composit)
+				const removeMinus = resultString.slice(1)
+				setResultState(removeMinus)
 			}
 			else {
 				setResultState('Error')
 			}
 		}
-		else {
+		else if (resultState !== 'Error') {
 			// Add selected button character to result state
 			setResultState((prevResultState) => prevResultState + selected)
 		}
